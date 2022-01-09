@@ -1,0 +1,134 @@
+<h1>Transactions compare!</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Specify files to compare</li>
+</ol>
+<div class="container">
+    <form #TransactionCompareForm="ngForm" (ngSubmit)="onSubmit()" >
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert" *ngIf="responseMessage && responseMessage.message">
+                    {{ responseMessage.message }}
+                </div>
+                <div class="alert alert-danger" role="alert" *ngFor="let error of errors">
+                    {{ error }}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Select file 1: </label>   
+                    <input type="file" (change)="inputFileChange1($event)" class="form-control" required>       
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Select file 2: </label>   
+                    <input type="file" (change)="inputFileChange2($event)" class="form-control" required>    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <button class="btn btn-primary" >Compare</button>
+            </div>
+        </div>
+    </form>
+    
+    <br>
+
+    <div class="card" *ngIf="responseMessage">
+        <div class="card-header">
+            Result Process
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Comparison Results</h5>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">File 1</h5>
+                  <p class="card-text">Total Records: {{ responseMessage.countRecordList1 }} </p>
+                  <p class="card-text">Matching Records: {{ responseMessage.countMatchRecord }} </p>
+                  <p class="card-text">UnMatched Records: {{ responseMessage.countUnMatchRecord }} </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">File 2</h5>
+                  <p class="card-text">Total Records: {{ responseMessage.countRecordList2 }} </p>
+                  <p class="card-text">Matching Records: {{ responseMessage.countMatchRecord }} </p>
+                  <p class="card-text">UnMatched Records: {{ responseMessage.countUnMatchRecord }} </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <a class="btn btn-primary" (click)="showRecords()" style="text-align:center;">Unmatched Report</a>
+        </div>
+    </div>
+
+    <div class="card" *ngIf="responseMessageDetails.length > 0" >
+        <div class="card-header">
+            Result Unmatched Report
+        </div>
+        <h5 class="card-title"></h5>
+        <div class="row">
+            <div class="table-responsive col-md-12" style="overflow-x: auto; width:200px; height: 389px;">
+                <table  class="table table-striped table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th>File 1</th>
+                            <th ></th>
+                            <th ></th>
+                            <th >File 2</th>
+                            <th ></th>
+                            <th ></th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th class="th-sm" scope="col">Date</th>
+                            <th class="th-sm" scope="col">Reference</th>
+                            <th class="th-sm" scope="col">Amount</th>
+
+                            <th class="th-sm" scope="col">Date</th>
+                            <th class="th-sm" scope="col">Reference</th>
+                            <th class="th-sm" scope="col">Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let message of responseMessageDetails">
+                            <td>{{ message.transactionDate }}</td>
+                            <td>{{ message.walletReference }}</td>
+                            <td>{{ message.transactionAmount }}</td>
+
+                            <td>{{ message.transactionDate1 }}</td>
+                            <td>{{ message.walletReference1 }}</td>
+                            <td>{{ message.transactionAmount1 }}</td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot> 
+                        <tr>
+                            <th >Date</th>
+                            <th >Reference</th>
+                            <th >Amount</th>
+
+                            <th >Date</th>
+                            <th >Reference</th>
+                            <th >Amount</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
